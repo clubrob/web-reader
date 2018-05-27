@@ -1,0 +1,31 @@
+{
+  "name": "web-reader",
+  "version": "1.0.0",
+  "description": "Simple web clipper/reader.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/clubrob/web-reader.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/clubrob/web-reader/issues"
+  },
+  "homepage": "https://github.com/clubrob/web-reader#readme",
+  "dependencies": {
+    "firebase": "^5.0.4"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.24.4",
+    "gulp": "^4.0.0",
+    "gulp-csso": "^3.0.1",
+    "gulp-sass": "^4.0.1",
+    "gulp-uglify": "^3.0.0",
+    "webpack-stream": "^4.0.3"
+  }
+}
