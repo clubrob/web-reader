@@ -2,17 +2,20 @@ var gulp = require('gulp');
 var sass = require('gulp-sass');
 var csso = require('gulp-csso');
 var uglify = require('gulp-uglify');
-var webpack = require('webpack-stream');
+var webpackStream = require('webpack-stream');
 var browser = require('browser-sync').create();
 
 gulp.task('bundleJS', () =>
   gulp.src('src/js/app.js')
-  .pipe(webpack({
+  .pipe(webpackStream({
     output: {
       filename: 'app.bundle.js'
-    }
+    },
+    plugins: [
+      new webpackStream.webpack.EnvironmentPlugin(['API_KEY', 'AUTH_DOMAIN', 'DATABASE_URL', 'PROJECT_ID', 'STORAGE_BUCKET', 'MESSAGING_SENDER_ID'])
+    ]
   }))
-  .pipe(uglify())
+  /* .pipe(uglify()) */
   .pipe(gulp.dest('dist/js/'))
   .pipe(browser.stream()));
 
