@@ -18,13 +18,12 @@
   },
   "homepage": "https://github.com/clubrob/web-reader#readme",
   "dependencies": {
-    "firebase-admin": "^5.12.1"
+    "firebase": "^5.0.4"
   },
   "devDependencies": {
     "babel-register": "^6.26.0",
     "browser-sync": "^2.24.4",
     "dotenv": "^5.0.1",
-    "dotenv-webpack": "^1.5.5",
     "gulp": "^4.0.0",
     "gulp-csso": "^3.0.1",
     "gulp-sass": "^4.0.1",

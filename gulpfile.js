@@ -4,6 +4,7 @@ var csso = require('gulp-csso');
 var uglify = require('gulp-uglify');
 var webpackStream = require('webpack-stream');
 var browser = require('browser-sync').create();
+require('dotenv').config();
 
 gulp.task('bundleJS', () =>
   gulp.src('src/js/app.js')
