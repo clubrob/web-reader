@@ -1,0 +1,43 @@
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-gap: 30px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+@media all and (min-width: $brkLgTab) {
+  .cards {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  }
+}
+
+.card {
+  padding: 2rem; //background-color: lighten($footerBg, 40%);
+}
+
+.card__head {
+  @at-root #{&}__text {
+    font-size: 1.8rem;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.card__body {
+  /*   display: grid;
+  grid-template-columns: 25% 1fr;
+  grid-gap: 1.2rem;
+  margin: 1.2rem 0 0 0; */
+  @at-root #{&}__text {
+    font-size: 1.3rem;
+    margin: 0;
+  }
+  @at-root #{&}__img {
+    margin: 0;
+    img {
+      width: 100%;
+      height: auto
+    }
+  }
+}

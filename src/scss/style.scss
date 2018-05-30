@@ -1,5 +1,3 @@
-$bg: lightcoral;
-
-body {
-  background-color: $bg;
-}
+@import 'variables';
+@import 'reset';
+@import 'modules/card';
