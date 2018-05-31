@@ -1,14 +1,14 @@
-const UICtrl = (function () {
+const UICtrl = (function() {
   const UISelectors = {
     clipUrl: '#clip-url',
     submitClip: '#submit-clip',
     clipList: '#clip-list'
-  }
+  };
 
   return {
-    populateList: function (clips) {
+    populateList: function(clips) {
       let html = '';
-      clips.forEach((clip) => {
+      clips.forEach(clip => {
         html += `
           <li class="clip" data-doc=${clip.id}>
             <div class="card">
@@ -34,16 +34,12 @@ const UICtrl = (function () {
       // Insert into DOM
       document.querySelector(UISelectors.clipList).innerHTML = html;
     },
-    addListItem: function (clip) {
-
-    },
-    deleteListItem: function (clip) {
-
-    },
-    getUISelectors: function () {
+    addListItem: function(clip) {},
+    deleteListItem: function(clip) {},
+    getUISelectors: function() {
       return UISelectors;
     }
-  }
+  };
 })();
 
 export default UICtrl;

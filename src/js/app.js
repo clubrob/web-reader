@@ -1,12 +1,28 @@
 import Data from './data';
 import UI from './ui';
+import firebase from './services/firebase';
 
-async function returnClips() {
-  let clips = await Data.getClips();
-  console.log(clips.length);
-  return clips;
-}
+/* import auth from './services/auth'; */
 
-returnClips().then((clips) => {
-  UI.populateList(clips)
-});
+/* Data.getClips().then(clips => {
+  UI.populateList(clips);
+}); */
+
+/* const btn = document.querySelector(UI.getUISelectors().submitClip);
+
+btn.addEventListener('click', getClipData);
+
+function getClipData(e) {
+  const url = 'https://roblindsey.com';
+
+  function reqListener() {
+    console.log(this.responseText);
+  }
+
+  const clipScrape = new XMLHttpRequest();
+  clipScrape.addEventListener('load', reqListener);
+  clipScrape.open('GET', url);
+  clipScrape.send();
+
+  e.preventDefault();
+} */

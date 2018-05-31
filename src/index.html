@@ -11,12 +11,16 @@
 
 <body>
   <h1>Web Reader</h1>
-  <input type="text" name="clip-url" id="clip-url">
-  <button type="submit" id="submit-clip">Add Link</button>
+  <form action=" https://us-central1-web-clipper-46a36.cloudfunctions.net/helloWorld:3000" method="post">
+    <input type="text" name="url" id="clip-url">
+    <button type="submit" id="submit-clip">Add Link</button>
+  </form>
 
   <ul id="clip-list" class="cards">
 
   </ul>
+  <div id="firebaseui-auth-container"></div>
+  <div id="loader"></div>
   <script src="js/app.bundle.js "></script>
 </body>
 

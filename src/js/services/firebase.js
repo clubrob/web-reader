@@ -1,5 +1,6 @@
 import firebase from 'firebase/app';
 import firestore from 'firebase/firestore';
+import firebaseui from 'firebaseui';
 
 const config = {
   apiKey: process.env.API_KEY,
@@ -10,4 +11,19 @@ const config = {
   messagingSenderId: process.env.MESSAGING_SENDER_ID
 };
 
-export default firebase.initializeApp(config);
+firebase.initializeApp(config);
+
+const uiConfig = {
+  signInSuccessUrl: 'index.html',
+  signInOptions: [
+    // Leave the lines as is for the providers you want to offer your users.
+    firebase.auth.GoogleAuthProvider.PROVIDER_ID
+  ]
+};
+
+// Initialize the FirebaseUI Widget using Firebase.
+var authUi = new firebaseui.auth.AuthUI(firebase.auth());
+// The start method will wait until the DOM is loaded.
+authUi.start('#firebaseui-auth-container', uiConfig);
+
+export { firebase, authUi };

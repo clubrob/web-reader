@@ -6,7 +6,8 @@ module.exports = {
   },
   extends: ['plugin:prettier/recommended', 'eslint:recommended'],
   parserOptions: {
-    ecmaVersion: 6
+    ecmaVersion: 6,
+    sourceType: 'module'
   },
   rules: {
     indent: ['error', 2],
