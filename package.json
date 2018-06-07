@@ -17,10 +17,7 @@
     "url": "https://github.com/clubrob/web-reader/issues"
   },
   "homepage": "https://github.com/clubrob/web-reader#readme",
-  "dependencies": {
-    "firebase": "^5.0.4",
-    "firebaseui": "^3.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "babel-register": "^6.26.0",
     "browser-sync": "^2.24.4",

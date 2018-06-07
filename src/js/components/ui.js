@@ -1,4 +1,4 @@
-const UICtrl = (function() {
+const UI = (function() {
   const UISelectors = {
     clipUrl: '#clip-url',
     submitClip: '#submit-clip',
@@ -10,7 +10,7 @@ const UICtrl = (function() {
       let html = '';
       clips.forEach(clip => {
         html += `
-          <li class="clip" data-doc=${clip.id}>
+          <li class="clip">
             <div class="card">
               <div class="card__head">
                 <h3><a href="${clip.url}" target="_blank">${clip.title}</a></h3>
@@ -20,11 +20,13 @@ const UICtrl = (function() {
               </div>
               <div class="card__footer">
                 <div class="date">
-                  <p>Saved: ${clip.date.toDateString()}</p>
+                  <p>Saved: ${clip.date}</p>
                 </div>
                 <div class="share">
                 </div>
                 <div class="modify">
+                  <a href="/edit/${clip.slug}">Edit</a> | 
+                  <a href="/delete/${clip.slug}">Delete</a>
                 </div>
               </div>
             </div>
@@ -42,4 +44,4 @@ const UICtrl = (function() {
   };
 })();
 
-export default UICtrl;
+module.exports = UI;

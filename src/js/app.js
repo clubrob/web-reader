@@ -1,28 +1,8 @@
-import Data from './data';
-import UI from './ui';
-import firebase from './services/firebase';
+const UI = require('./components/ui.js');
 
-/* import auth from './services/auth'; */
-
-/* Data.getClips().then(clips => {
-  UI.populateList(clips);
-}); */
-
-/* const btn = document.querySelector(UI.getUISelectors().submitClip);
-
-btn.addEventListener('click', getClipData);
-
-function getClipData(e) {
-  const url = 'https://roblindsey.com';
-
-  function reqListener() {
-    console.log(this.responseText);
-  }
-
-  const clipScrape = new XMLHttpRequest();
-  clipScrape.addEventListener('load', reqListener);
-  clipScrape.open('GET', url);
-  clipScrape.send();
-
-  e.preventDefault();
-} */
+fetch('http://localhost:5000/api')
+  .then(response => response.json())
+  .then(data => {
+    UI.populateList(data);
+    console.log(data);
+  });

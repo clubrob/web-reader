@@ -1,10 +1,10 @@
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var csso = require('gulp-csso');
-var uglify = require('gulp-uglify');
-var webpackStream = require('webpack-stream');
-var browser = require('browser-sync').create();
-require('dotenv').config();
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const csso = require('gulp-csso');
+// var uglify = require('gulp-uglify');
+const webpackStream = require('webpack-stream');
+const browser = require('browser-sync').create();
+// require('dotenv').config();
 
 gulp.task('bundleJS', () =>
   gulp
@@ -13,8 +13,8 @@ gulp.task('bundleJS', () =>
       webpackStream({
         output: {
           filename: 'app.bundle.js'
-        },
-        plugins: [
+        }
+        /* plugins: [
           new webpackStream.webpack.EnvironmentPlugin([
             'API_KEY',
             'AUTH_DOMAIN',
@@ -23,7 +23,7 @@ gulp.task('bundleJS', () =>
             'STORAGE_BUCKET',
             'MESSAGING_SENDER_ID'
           ])
-        ]
+        ] */
       })
     )
     /* .pipe(uglify()) */
