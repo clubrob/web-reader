@@ -4,7 +4,7 @@ const csso = require('gulp-csso');
 // var uglify = require('gulp-uglify');
 const webpackStream = require('webpack-stream');
 const browser = require('browser-sync').create();
-// require('dotenv').config();
+require('dotenv').config();
 
 gulp.task('bundleJS', () =>
   gulp
@@ -13,17 +13,16 @@ gulp.task('bundleJS', () =>
       webpackStream({
         output: {
           filename: 'app.bundle.js'
-        }
-        /* plugins: [
+        },
+        node: {
+          fs: 'empty'
+        },
+        plugins: [
           new webpackStream.webpack.EnvironmentPlugin([
-            'API_KEY',
-            'AUTH_DOMAIN',
-            'DATABASE_URL',
-            'PROJECT_ID',
-            'STORAGE_BUCKET',
-            'MESSAGING_SENDER_ID'
+            'FIREBASE_API_KEY',
+            'FIREBASE_AUTH_DOMAIN'
           ])
-        ] */
+        ]
       })
     )
     /* .pipe(uglify()) */

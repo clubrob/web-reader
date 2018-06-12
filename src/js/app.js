@@ -2,8 +2,8 @@ const firebase = require('firebase/app');
 require('firebase/auth');
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCtd1DerHMqbHFF_leFIyUBVGTB8BPNvhs',
-  authDomain: 'web-clipper-46a36.firebaseapp.com'
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN
 };
 firebase.initializeApp(firebaseConfig);
 
