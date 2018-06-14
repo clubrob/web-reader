@@ -10,15 +10,25 @@
 </head>
 
 <body>
-  <h1>Web Reader</h1>
-  <form action="http://localhost:5000/api/save" method="post">
-    <input type="text" name="url" id="url">
-    <button type="submit" id="submit-clip">Add Link</button>
-  </form>
+  <header>
+    <nav>
+      <div class="brand">
+        <h4>Web Reader</h4>
+      </div>
+      <ul class="navbar">
+        <li><a href="/">Home</a></li>
+        <li><a href="/list">Clip List</a></li>
+        <li><a href="/login">Log In</a></li>
+        <li><a href="/logout">Log Out</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <div id="app"></div>
 
-  <ul id="clip-list" class="cards">
-
-  </ul>
+  <footer>
+    <p>&copy; 2018 Rob Lindsey Design</p>
+  </footer>
   <script src="js/app.bundle.js "></script>
 </body>
 

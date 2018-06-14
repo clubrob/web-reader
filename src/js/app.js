@@ -1,70 +1,31 @@
-const firebase = require('firebase/app');
-require('firebase/auth');
+const Router = require('./helpers/router.js');
+// Controllers
+const Clips = require('./controllers/clips'),
+  Login = require('./controllers/login'),
+  Home = require('./controllers/home');
 
-const firebaseConfig = {
-  apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN
-};
-firebase.initializeApp(firebaseConfig);
+const app = document.querySelector('#app');
 
-const UI = require('./components/ui.js');
+const currentPath = window.location.pathname;
 
-const toggleSignIn = function(e) {
-  if (firebase.auth().currentUser) {
-    firebase.auth().signOut();
-  } else {
-    const email = document.querySelector('#app-email').value;
-    const password = document.querySelector('#app-password').value;
-
-    if (email.length < 4) {
-      alert('Please enter email');
-      return;
-    }
-    if (password.length < 4) {
-      alert('Please enter password');
-      return;
-    }
-
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        window.location = 'http://localhost:3000/index.html';
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-  e.preventDefault();
-};
-
-if (window.location.pathname === '/login.html') {
-  const signInToggle = document.querySelector('#sign-in-toggle');
-  signInToggle.addEventListener('click', toggleSignIn);
-
-  const signOutToggle = document.querySelector('#sign-out-toggle');
-  signOutToggle.addEventListener('click', () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        window.location = 'login.html';
-      });
-  });
-}
-
-firebase.auth().onAuthStateChanged(user => {
-  if (user) {
-    fetch('http://localhost:5000/api')
-      .then(response => response.json())
-      .then(data => {
-        UI.populateList(data);
-        /* console.log(data); */
-      });
-    console.log(user);
-  } else {
-    if (window.location.pathname !== '/login.html') {
-      window.location = 'http://localhost:3000/login.html';
-    }
-  }
+Router.setRoute({
+  path: '/',
+  view: Home.indexView
 });
+/* Router.setRoute({ path: '/list', view: Clips.populateList() }); */
+Router.setRoute({
+  path: '/login',
+  view: Login.loginView
+});
+/* Router.setRoute('/read', { view: Home.indexView }); */
+
+console.log('routes', Router.getRoutes());
+//console.log('view', Router.navigate(currentPath)[0].view);
+console.log('path', currentPath);
+// const path = window.location.pathname;
+app.innerHTML =
+  typeof Router.navigate(currentPath)[0] !== 'undefined'
+    ? Router.navigate(currentPath)[0].view
+    : '404';
+// Read Clip
+/* app.innerHTML = Clips.readClip(); */
