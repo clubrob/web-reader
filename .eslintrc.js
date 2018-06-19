@@ -1,5 +1,6 @@
 module.exports = {
   root: true,
+  globals: {'app': true},
   env: {
     browser: true,
     node: true

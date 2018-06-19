@@ -5,27 +5,31 @@ const Clips = require('./controllers/clips'),
   Home = require('./controllers/home');
 
 const app = document.querySelector('#app');
-
 const currentPath = window.location.pathname;
 
-Router.setRoute({
-  path: '/',
-  view: Home.indexView
-});
-/* Router.setRoute({ path: '/list', view: Clips.populateList() }); */
-Router.setRoute({
-  path: '/login',
-  view: Login.loginView
-});
-/* Router.setRoute('/read', { view: Home.indexView }); */
+Router.setRoute('/', Home.indexView);
+Router.setRoute('/login', Login.loginView);
+Router.setRoute('/list', Clips.clipsView());
+Router.setRoute('/read', Clips.readClip());
 
-console.log('routes', Router.getRoutes());
-//console.log('view', Router.navigate(currentPath)[0].view);
-console.log('path', currentPath);
-// const path = window.location.pathname;
-app.innerHTML =
-  typeof Router.navigate(currentPath)[0] !== 'undefined'
-    ? Router.navigate(currentPath)[0].view
-    : '404';
+// Init
+const navLinks = Array.from(document.querySelectorAll('.route'));
+function navHandler(e) {
+  const linkPath = e.target.attributes.href.value;
+  window.history.pushState({ path: linkPath }, '', linkPath);
+  console.log('path', linkPath);
+  Router.navigate(linkPath);
+  e.preventDefault();
+}
+
+navLinks.forEach(link => {
+  link.addEventListener('click', navHandler);
+});
+
+window.addEventListener('popstate', () => {
+  Router.navigate(window.history.state.path);
+});
+
+Router.navigate(currentPath);
 // Read Clip
 /* app.innerHTML = Clips.readClip(); */

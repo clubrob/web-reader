@@ -13,28 +13,19 @@ const Clips = (function() {
     return url.substr(5);
   }
 
-  var clips = '';
-
-  fetch('http://localhost:5000/api')
-    .then(response => response.json())
-    .then(data => {
-      clips += clipListView(data);
-    })
-    .catch(err => console.log(err.message));
-
-  console.log(clips);
-
   return {
-    /* clipListView: clipListView(clips), */
+    clipsView: function() {
+      return fetch('http://localhost:5000/api')
+        .then(response => response.json())
+        .then(data => clipListView(data))
+        .catch(err => console.log(err.message));
+    },
     readClip: function() {
       const url = queryStripper(window.location.search);
 
-      fetch(`http://localhost:5000/api/read?url=${url}`)
+      return fetch(`http://localhost:5000/api/read?url=${url}`)
         .then(response => response.json())
-        .then(response => {
-          const clip = readClipView(response);
-          document.querySelector('#app').innerHTML = clip;
-        })
+        .then(response => readClipView(response))
         .catch(err => console.log(err.message));
     },
     addListItem: function(clip) {},
