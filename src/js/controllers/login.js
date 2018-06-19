@@ -2,7 +2,9 @@ const Login = (function() {
   const loginView = require('../views/login-view.js');
 
   return {
-    loginView: loginView
+    loginView: function() {
+      return loginView;
+    }
   };
 })();
 

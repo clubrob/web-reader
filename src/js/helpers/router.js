@@ -12,18 +12,17 @@ const Router = (function() {
     getRoutes: function() {
       return routes;
     },
-    navigate: function(view) {
+    navigate: function(view, container) {
       getContent(view, content => {
-        // console.log('getContent', routes);
+        // Conditional to handle async or static view functions
         if (typeof content.then === 'function') {
           content.then(result => {
-            app.innerHTML = result;
+            container.innerHTML = result;
           });
         } else {
-          app.innerHTML = content;
+          container.innerHTML = content;
         }
       });
-      /* return routes.filter(r => r.path === path); */
     }
   };
 })();

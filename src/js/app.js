@@ -7,8 +7,8 @@ const Clips = require('./controllers/clips'),
 const app = document.querySelector('#app');
 const currentPath = window.location.pathname;
 
-Router.setRoute('/', Home.indexView);
-Router.setRoute('/login', Login.loginView);
+Router.setRoute('/', Home.indexView());
+Router.setRoute('/login', Login.loginView());
 Router.setRoute('/list', Clips.clipsView());
 Router.setRoute('/read', Clips.readClip());
 
@@ -17,8 +17,7 @@ const navLinks = Array.from(document.querySelectorAll('.route'));
 function navHandler(e) {
   const linkPath = e.target.attributes.href.value;
   window.history.pushState({ path: linkPath }, '', linkPath);
-  console.log('path', linkPath);
-  Router.navigate(linkPath);
+  Router.navigate(linkPath, app);
   e.preventDefault();
 }
 
@@ -27,9 +26,7 @@ navLinks.forEach(link => {
 });
 
 window.addEventListener('popstate', () => {
-  Router.navigate(window.history.state.path);
+  Router.navigate(window.history.state.path, app);
 });
 
-Router.navigate(currentPath);
-// Read Clip
-/* app.innerHTML = Clips.readClip(); */
+Router.navigate(currentPath, app);
