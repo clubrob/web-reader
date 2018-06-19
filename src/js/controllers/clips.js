@@ -1,6 +1,6 @@
 const Clips = (function() {
-  const clipListView = require('../views/clip-list-view.js'),
-    readClipView = require('../views/read-clip-view.js');
+  const clipListView = require('../views/clip-crud/clip-list-view'),
+    readClipView = require('../views/clip-crud/read-clip-view');
 
   function queryStripper(url) {
     // Remove '?url=' from window.location.search
@@ -22,9 +22,14 @@ const Clips = (function() {
         .then(response => readClipView(response))
         .catch(err => console.log(err.message));
     },
-    addListItem: function(clip) {},
-    deleteListItem: function(clip) {},
-    getUISelectors: function() {}
+    deleteClip: function(slug) {
+      console.log(slug);
+      return slug;
+    },
+    editClip: function(slug) {
+      console.log(slug);
+      return slug;
+    }
   };
 })();
 

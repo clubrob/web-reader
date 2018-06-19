@@ -8,27 +8,33 @@
 
 @media all and (min-width: $brkLgTab) {
   .cards {
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   }
 }
 
 .card {
-  padding: 2rem; //background-color: lighten($footerBg, 40%);
+  padding: 2.5rem; //background-color: lighten($footerBg, 40%);
+  background-color: #efefef;
+  border-radius: 10px;
 }
 
 .card__head {
-  @at-root #{&}__text {
-    font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  @at-root #{&}__title {
+    font-size: 2.5rem;
+    line-height: 1.3;
     margin: 0;
     padding: 0;
+    a {
+      color: rgb(112, 34, 34);
+      &:hover {
+        text-decoration: none;
+      }
+    }
   }
 }
 
 .card__body {
-  /*   display: grid;
-  grid-template-columns: 25% 1fr;
-  grid-gap: 1.2rem;
-  margin: 1.2rem 0 0 0; */
   @at-root #{&}__text {
     font-size: 1.3rem;
     margin: 0;
@@ -38,6 +44,26 @@
     img {
       width: 100%;
       height: auto
+    }
+  }
+}
+
+.card__footer {
+  @at-root #{&}__date {
+    p {
+      font-size: 1rem;
+      font-style: italic;
+    }
+  }
+  @at-root #{&}__modify {
+    display: flex;
+    justify-content: right;
+    font-size: 1.2rem;
+    font-weight: bold;
+    a {
+      color: #000;
+      display: block;
+      padding: .5rem;
     }
   }
 }

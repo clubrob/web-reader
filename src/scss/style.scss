@@ -1,3 +1,26 @@
 @import 'variables';
 @import 'reset';
+@import 'modules/nav';
 @import 'modules/card';
+@import 'modules/modal';
+
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+#app {
+  padding: 2rem;
+}
+footer {
+  grid-row-start: 3;
+  grid-row-end: 4;
+  background-color: rgb(214, 214, 214);
+  p {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+}

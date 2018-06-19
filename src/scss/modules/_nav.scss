@@ -1,0 +1,28 @@
+.nav {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: rgb(105, 25, 25);
+}
+.nav__brand {
+  h4 {
+    padding: 0 0 0 2rem;
+    margin: 0;
+    color: #fff;
+    line-height: 64px;
+  }
+}
+.nav__menu {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+}
+.nav__menu__item {}
+.nav__menu__item__link {
+  display: block;
+  padding: 2rem;
+  color: #fff;
+}
+.nav__menu__item__link--active {
+  color: rgb(156, 156, 156);
+}
