@@ -1,4 +1,5 @@
 const Router = require('./helpers/router.js');
+const Auth = require('./helpers/auth.js');
 
 // Controllers
 const Clips = require('./controllers/clips'),

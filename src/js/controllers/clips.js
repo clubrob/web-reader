@@ -10,11 +10,13 @@ const Clips = (function() {
         .catch(err => console.log(err.message));
     },
     readClip: function() {
-      const slug = window.location.search.split('=')[1];
-      return fetch(`http://localhost:5000/api/read?s=${slug}`)
-        .then(response => response.json())
-        .then(response => readClipView(response))
-        .catch(err => console.log(err.message));
+      if (window.location.search.indexOf('=') > 0) {
+        const slug = window.location.search.split('=')[1];
+        return fetch(`http://localhost:5000/api/read?s=${slug}`)
+          .then(response => response.json())
+          .then(response => readClipView(response))
+          .catch(err => console.log(err.message));
+      }
     },
     deleteClip: function(slug) {
       console.log(slug);

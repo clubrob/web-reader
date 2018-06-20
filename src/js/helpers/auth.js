@@ -10,8 +10,20 @@ const Auth = (function() {
   firebase.initializeApp(firebaseConfig);
 
   return {
-    isLoggedIn: firebase
-      .auth()
-      .onAuthStateChanged(user => (user ? true : false))
+    logIn: function(user) {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(user.email, user.password)
+        .catch(err => console.log(err.message));
+    }
+    /* isLoggedIn: function() {
+      return firebase
+        .auth()
+        .onAuthStateChanged(
+          user => (user ? (loggedIn = true) : (loggedIn = false))
+        );
+    } */
   };
 })();
+
+module.exports = Auth;
