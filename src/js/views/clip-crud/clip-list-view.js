@@ -6,7 +6,7 @@ const clipListView = function(clips) {
           <div class="card">
             <div class="card__head">
               <h3 class="card__head__title">
-                <a href="/read?url=${clip.url}" target="_blank">
+                <a href="/read?s=${clip.slug}">
                   ${clip.title}
                 </a>
               </h3>

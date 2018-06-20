@@ -17,9 +17,16 @@ Router.setRoute('/read', Clips.readClip());
 
 // Init
 const navLinks = Array.from(document.querySelectorAll('.route'));
+
 function navHandler(e) {
   const linkPath = e.target.attributes.href.value;
-  window.history.pushState({ path: linkPath }, '', linkPath);
+  window.history.pushState(
+    {
+      path: linkPath
+    },
+    '',
+    linkPath
+  );
   Router.navigate(linkPath, app);
   e.preventDefault();
 }

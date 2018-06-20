@@ -1,8 +1,8 @@
 const readClip = function(clip) {
   const readMe = `
-    <article class="clip">
-    <h1>${clip.title}</h1>
-    <div>${clip.content}</div>
+    <article class="readable-clip">
+      <h2>${clip.title}</h2>
+      ${clip.readable}
     </article>
   `;
   return readMe;
