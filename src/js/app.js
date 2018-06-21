@@ -1,10 +1,15 @@
-const Router = require('./helpers/router.js');
-const Auth = require('./helpers/auth.js');
+const RouterClass = require('./helpers/router.js');
+// const Auth = require('./helpers/auth.js');
+
+const Router = new RouterClass();
 
 // Controllers
-const Clips = require('./controllers/clips'),
-  Login = require('./controllers/login'),
-  Home = require('./controllers/home');
+const ClipClass = require('./controllers/clipController.js'),
+  Login = require('./controllers/loginController.js'),
+  Home = require('./controllers/homeController.js');
+
+const Clip = new ClipClass();
+console.log(Clip);
 
 // Global variables
 const app = document.querySelector('#app');
@@ -13,32 +18,29 @@ const currentPath = window.location.pathname;
 // Set routes
 Router.setRoute('/', Home.indexView());
 Router.setRoute('/login', Login.loginView());
-Router.setRoute('/list', Clips.clipsView());
-Router.setRoute('/read', Clips.readClip());
+Router.setRoute('/list', Clip.clipsView());
+Router.setRoute('/read', Clip.readClip());
 
-// Init
-const navLinks = Array.from(document.querySelectorAll('.route'));
-
+// Event handlers
 function navHandler(e) {
   const linkPath = e.target.attributes.href.value;
-  window.history.pushState(
-    {
-      path: linkPath
-    },
-    '',
-    linkPath
-  );
+  window.history.pushState({ path: linkPath }, '', linkPath);
   Router.navigate(linkPath, app);
   e.preventDefault();
 }
 
-navLinks.forEach(link => {
-  link.addEventListener('click', navHandler);
-});
-
-window.addEventListener('popstate', () => {
-  Router.navigate(window.history.state.path, app);
-});
+function readHandler(e) {
+  if (e.target && e.target.matches('.read-link')) {
+    let historyPath = e.target.attributes.href.value;
+    window.history.pushState({ path: historyPath }, '', historyPath);
+    // let navPath = window.location.pathname;
+    // linkPath = linkPath.split('=');
+    // linkPath = linkPath[0].substr(0, 4);
+    console.log('READHANDLER', historyPath);
+    Router.navigate(historyPath, app);
+    e.preventDefault();
+  }
+}
 
 function deleteHandler(e) {
   if (e.target && e.target.matches('#delete-clip')) {
@@ -46,7 +48,7 @@ function deleteHandler(e) {
     urlArray.shift();
     const slug = urlArray[1];
 
-    Clips.deleteClip(slug);
+    Clip.deleteClip(slug);
 
     e.preventDefault();
   }
@@ -58,12 +60,24 @@ function editHandler(e) {
     urlArray.shift();
     const slug = urlArray[1];
 
-    Clips.editClip(slug);
+    Clip.editClip(slug);
 
     e.preventDefault();
   }
 }
 
+// Event listeners
+window.addEventListener('load', () => {
+  document.querySelector('#test-load').value = 'butts';
+});
+window.addEventListener('popstate', () => {
+  Router.navigate(window.history.state.path, app);
+});
+const navLinks = Array.from(document.querySelectorAll('.route'));
+navLinks.forEach(link => {
+  link.addEventListener('click', navHandler);
+});
+app.addEventListener('click', readHandler, false);
 app.addEventListener('click', deleteHandler, false);
 app.addEventListener('click', editHandler, false);
 

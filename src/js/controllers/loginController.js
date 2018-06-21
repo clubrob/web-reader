@@ -1,4 +1,4 @@
-const auth = require('../helpers/auth.js');
+// const auth = require('../helpers/auth.js');
 
 const Login = (function() {
   const loginView = require('../views/login-view.js');
