@@ -11,14 +11,14 @@ Clips.prototype.clipsView = function() {
 };
 
 Clips.prototype.readClip = function() {
-  if (window.location.search.indexOf('=') > 0) {
-    const slug = window.location.search.split('=')[1];
-    console.log('READCLIP Search', window.location.search);
-    console.log('READCLIP slug', slug);
+  if (window.history.state && window.history.state.path.indexOf('=') > 0) {
+    const slug = window.history.state.path.split('=')[1];
     return fetch(`http://localhost:5000/api/read?s=${slug}`)
       .then(response => response.json())
       .then(response => this.readClipView(response))
       .catch(err => console.log(err.message));
+  } else {
+    return 'buutsss';
   }
 };
 

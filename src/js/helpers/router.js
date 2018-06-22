@@ -10,10 +10,8 @@ Router.prototype.setRoute = function(path, view) {
   this.routes[path] = view;
 };
 
-Router.prototype.navigate = function(view, container) {
-  this.getContent(view, content => {
-    console.log('NAVIGATE view', view);
-    console.log('NAVIGATE pathname', window.location.pathname);
+Router.prototype.navigate = function(route, container) {
+  this.getContent(route, content => {
     // Conditional to handle async or static view functions
     if (content && typeof content.then === 'function') {
       content.then(result => {

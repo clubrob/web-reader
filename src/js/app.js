@@ -9,7 +9,7 @@ const ClipClass = require('./controllers/clipController.js'),
   Home = require('./controllers/homeController.js');
 
 const Clip = new ClipClass();
-console.log(Clip);
+/* console.log(Clip); */
 
 // Global variables
 const app = document.querySelector('#app');
@@ -31,13 +31,9 @@ function navHandler(e) {
 
 function readHandler(e) {
   if (e.target && e.target.matches('.read-link')) {
-    let historyPath = e.target.attributes.href.value;
-    window.history.pushState({ path: historyPath }, '', historyPath);
-    // let navPath = window.location.pathname;
-    // linkPath = linkPath.split('=');
-    // linkPath = linkPath[0].substr(0, 4);
-    console.log('READHANDLER', historyPath);
-    Router.navigate(historyPath, app);
+    const linkPath = e.target.attributes.href.value;
+    window.history.pushState({ path: linkPath }, '', linkPath);
+    Router.navigate(linkPath, app);
     e.preventDefault();
   }
 }
@@ -81,4 +77,5 @@ app.addEventListener('click', readHandler, false);
 app.addEventListener('click', deleteHandler, false);
 app.addEventListener('click', editHandler, false);
 
+window.history.pushState({ path: currentPath }, '', currentPath);
 Router.navigate(currentPath, app);
