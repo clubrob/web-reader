@@ -4,6 +4,7 @@ const Router = function() {
 
 Router.prototype.getContent = function(route, callback) {
   if (route.params) {
+    // Passing route params and invoking view function
     callback(this.routes[route.view](route.params));
   } else {
     callback(this.routes[route.view]);
@@ -15,6 +16,7 @@ Router.prototype.setRoute = function(path, view) {
 };
 
 Router.prototype.navigate = function(route, container) {
+  // Splitting route params into route
   if (route.indexOf('?') > 0) {
     route = {
       view: route.split('?')[0],

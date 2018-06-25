@@ -18,24 +18,34 @@ const currentPath = window.location.pathname + window.location.search;
 Router.setRoute('/', Home.indexView());
 Router.setRoute('/login', Login.loginView());
 Router.setRoute('/list', Clip.clipsView());
+Router.setRoute('/add', Clip.addClip());
 // Pass function ref instead of function invocation if using URL params
 // Function is invoked at the router
 Router.setRoute('/read', Clip.readClip);
+Router.setRoute('/delete', Clip.deleteClip);
 
 // Event handlers
-/* 
-function deleteHandler(e) {
+function addHandler(event) {
+  const btn = event.target;
+  if (btn && btn.matches('#add-clip')) {
+    const url = document.querySelector('#clip-url').value;
+
+    Clip.createClip(url);
+    event.preventDefault();
+  }
+}
+/* function deleteHandler(e) {
   if (e.target && e.target.matches('#delete-clip')) {
     let urlArray = e.target.attributes.href.value.split('/');
     urlArray.shift();
     const slug = urlArray[1];
 
     Clip.deleteClip(slug);
-
+    Router.navigate('/list', app);
     e.preventDefault();
   }
-}
-
+} */
+/*
 function editHandler(e) {
   if (e.target && e.target.matches('#edit-clip')) {
     let urlArray = e.target.attributes.href.value.split('/');
@@ -49,26 +59,22 @@ function editHandler(e) {
 } */
 
 // Event listeners
-window.addEventListener('load', () => {
-  document.querySelector('#test-load').value = 'butts';
-});
 window.addEventListener('popstate', () => {
   Router.navigate(window.history.state.path, app);
 });
 
 document.addEventListener('click', event => {
   const link = event.target;
-  const href = event.target.attributes.href.value;
+
   if (link && link.matches('a')) {
-    if (link.matches('.origin')) {
-      window.open(href);
-      event.preventDefault();
-    }
+    const href = event.target.attributes.href.value;
     window.history.pushState({ path: href }, '', href);
     Router.navigate(href, app);
     event.preventDefault();
   }
 });
+
+app.addEventListener('click', addHandler);
 
 window.history.pushState({ path: currentPath }, '', currentPath);
 Router.navigate(currentPath, app);

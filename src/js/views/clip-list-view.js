@@ -23,9 +23,9 @@ const clipListView = function(clips) {
               <div class="card__footer__share">
               </div>
               <div class="card__footer__modify">
-                <a href="${clip.url}" target="_blank" class="origin">Original</a>
-                <a href="/edit/${clip.slug}" id="edit-clip">Edit</a>
-                <a href="/delete/${clip.slug}" id="delete-clip">Delete</a>
+                <a href="${clip.url}" target="_blank">Original</a>
+                <a href="/edit?s=${clip.slug}" id="edit-clip">Edit</a>
+                <a href="/delete?s=${clip.slug}" id="delete-clip">Delete</a>
               </div>
             </div>
           </div>
