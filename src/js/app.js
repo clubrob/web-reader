@@ -9,35 +9,21 @@ const ClipClass = require('./controllers/clipController.js'),
   Home = require('./controllers/homeController.js');
 
 const Clip = new ClipClass();
-/* console.log(Clip); */
 
 // Global variables
 const app = document.querySelector('#app');
-const currentPath = window.location.pathname;
+const currentPath = window.location.pathname + window.location.search;
 
 // Set routes
 Router.setRoute('/', Home.indexView());
 Router.setRoute('/login', Login.loginView());
 Router.setRoute('/list', Clip.clipsView());
-Router.setRoute('/read', Clip.readClip());
+// Pass function ref instead of function invocation if using URL params
+// Function is invoked at the router
+Router.setRoute('/read', Clip.readClip);
 
 // Event handlers
-function navHandler(e) {
-  const linkPath = e.target.attributes.href.value;
-  window.history.pushState({ path: linkPath }, '', linkPath);
-  Router.navigate(linkPath, app);
-  e.preventDefault();
-}
-
-function readHandler(e) {
-  if (e.target && e.target.matches('.read-link')) {
-    const linkPath = e.target.attributes.href.value;
-    window.history.pushState({ path: linkPath }, '', linkPath);
-    Router.navigate(linkPath, app);
-    e.preventDefault();
-  }
-}
-
+/* 
 function deleteHandler(e) {
   if (e.target && e.target.matches('#delete-clip')) {
     let urlArray = e.target.attributes.href.value.split('/');
@@ -60,7 +46,7 @@ function editHandler(e) {
 
     e.preventDefault();
   }
-}
+} */
 
 // Event listeners
 window.addEventListener('load', () => {
@@ -69,13 +55,20 @@ window.addEventListener('load', () => {
 window.addEventListener('popstate', () => {
   Router.navigate(window.history.state.path, app);
 });
-const navLinks = Array.from(document.querySelectorAll('.route'));
-navLinks.forEach(link => {
-  link.addEventListener('click', navHandler);
+
+document.addEventListener('click', event => {
+  const link = event.target;
+  const href = event.target.attributes.href.value;
+  if (link && link.matches('a')) {
+    if (link.matches('.origin')) {
+      window.open(href);
+      event.preventDefault();
+    }
+    window.history.pushState({ path: href }, '', href);
+    Router.navigate(href, app);
+    event.preventDefault();
+  }
 });
-app.addEventListener('click', readHandler, false);
-app.addEventListener('click', deleteHandler, false);
-app.addEventListener('click', editHandler, false);
 
 window.history.pushState({ path: currentPath }, '', currentPath);
 Router.navigate(currentPath, app);

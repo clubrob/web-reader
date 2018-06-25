@@ -1,4 +1,4 @@
-const readClipView = function(clip) {
+function readClipView(clip) {
   const readMe = `
     <article class="readable-clip">
       <h2>${clip.title}</h2>
@@ -6,6 +6,6 @@ const readClipView = function(clip) {
     </article>
   `;
   return readMe;
-};
+}
 
 module.exports = readClipView;
