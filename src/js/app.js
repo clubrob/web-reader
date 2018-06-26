@@ -25,11 +25,35 @@ Router.setRoute('/read', Clip.readClip);
 Router.setRoute('/delete', Clip.deleteClip);
 
 // Event handlers
-function addClipHandler(event) {
+function addClipUrlHandler(event) {
   const btn = event.target;
-  if (btn && btn.matches('#add-clip')) {
-    const url = document.querySelector('#clip-url').value;
+  if (btn && btn.matches('#add-url-form-submit')) {
+    const form = document.querySelector('#add-url-form');
 
+    const clip = {};
+    clip.url = form.querySelector('#add-url-form-url').value;
+    clip.tags = Array.from(form.getElementsByClassName('tag-span')).map(
+      tag => tag.textContent
+    );
+
+    console.log(clip);
+    // Clip.createClip(url);
+    event.preventDefault();
+  }
+}
+function addClipManualHandler(event) {
+  const btn = event.target;
+  if (btn && btn.matches('#add-manual-form-submit')) {
+    const form = document.querySelector('#add-manual-form');
+
+    const clip = {};
+    clip.title = form.querySelector('#add-manual-form-title').value;
+    clip.url = form.querySelector('#add-manual-form-url').value;
+    clip.summary = form.querySelector('#add-manual-form-summary').value;
+    clip.tags = Array.from(form.getElementsByClassName('tag-span')).map(
+      tag => tag.textContent
+    );
+    console.log(clip);
     // Clip.createClip(url);
     event.preventDefault();
   }
@@ -82,7 +106,8 @@ document.addEventListener('click', event => {
   }
 });
 
-app.addEventListener('click', addClipHandler);
+app.addEventListener('click', addClipUrlHandler);
+app.addEventListener('click', addClipManualHandler);
 app.addEventListener('keyup', tagInputHandler);
 app.addEventListener('click', tagDeleteHandler);
 

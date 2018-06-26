@@ -49,18 +49,19 @@
   display: inline-block;
   padding: .5rem 1rem;
   margin: 3px;
-  background: rgb(151, 0, 0);
+  background: rgb(124, 18, 18);
   color: #fff;
   border-radius: 5px;
 }
 .tag-delete{
+  text-align: center;
   &::after {
-    content: '\26cc';
+    content: '\1F5D9';
     display: block;
+    top: 0;
     float: right;
     line-height: .9rem;
-    font-size: .9rem;
-    text-align: center;
+    font-size: 1rem;
     height: .9rem;
     width: .9rem;
     margin-left: 1rem;
