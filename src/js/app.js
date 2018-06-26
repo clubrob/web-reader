@@ -25,38 +25,46 @@ Router.setRoute('/read', Clip.readClip);
 Router.setRoute('/delete', Clip.deleteClip);
 
 // Event handlers
-function addHandler(event) {
+function addClipHandler(event) {
   const btn = event.target;
   if (btn && btn.matches('#add-clip')) {
     const url = document.querySelector('#clip-url').value;
 
-    Clip.createClip(url);
+    // Clip.createClip(url);
     event.preventDefault();
   }
 }
-/* function deleteHandler(e) {
-  if (e.target && e.target.matches('#delete-clip')) {
-    let urlArray = e.target.attributes.href.value.split('/');
-    urlArray.shift();
-    const slug = urlArray[1];
+function tagInputHandler(event) {
+  const tagInput = event.target;
+  const key = event.keyCode;
+  const tagHolder = tagInput.nextElementSibling;
 
-    Clip.deleteClip(slug);
-    Router.navigate('/list', app);
-    e.preventDefault();
+  if (tagInput && tagInput.matches('.form__field__text--tag') && key === 188) {
+    // Build the tagSpan and children
+    // Tag text, comma removed
+    const tagText = document.createTextNode(
+      tagInput.value.substr(0, tagInput.value.length - 1)
+    );
+    // Tag delete button
+    let tagDelete = document.createElement('span');
+    tagDelete.classList.add('tag-delete');
+    // Tag wrapper span
+    let tagSpan = document.createElement('span');
+    tagSpan.classList.add('tag-span');
+    // Put it all together
+    tagSpan.appendChild(tagText);
+    tagSpan.appendChild(tagDelete);
+    tagHolder.appendChild(tagSpan);
+    // Reset the form
+    tagInput.value = '';
   }
-} */
-/*
-function editHandler(e) {
-  if (e.target && e.target.matches('#edit-clip')) {
-    let urlArray = e.target.attributes.href.value.split('/');
-    urlArray.shift();
-    const slug = urlArray[1];
-
-    Clip.editClip(slug);
-
-    e.preventDefault();
+}
+function tagDeleteHandler(event) {
+  const tagDelete = event.target;
+  if (tagDelete && tagDelete.matches('.tag-delete')) {
+    event.target.parentElement.remove();
   }
-} */
+}
 
 // Event listeners
 window.addEventListener('popstate', () => {
@@ -74,7 +82,9 @@ document.addEventListener('click', event => {
   }
 });
 
-app.addEventListener('click', addHandler);
+app.addEventListener('click', addClipHandler);
+app.addEventListener('keyup', tagInputHandler);
+app.addEventListener('click', tagDeleteHandler);
 
 window.history.pushState({ path: currentPath }, '', currentPath);
 Router.navigate(currentPath, app);
