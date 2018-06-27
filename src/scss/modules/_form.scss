@@ -43,34 +43,3 @@
 .form__field__tag__group {
   width: 100%;
 }
-
-// Tag styles
-.tag-span {
-  display: inline-block;
-  padding: .5rem 1rem;
-  margin: 3px;
-  background: rgb(124, 18, 18);
-  color: #fff;
-  border-radius: 5px;
-}
-.tag-delete{
-  text-align: center;
-  &::after {
-    content: '\1F5D9';
-    display: block;
-    top: 0;
-    float: right;
-    line-height: .9rem;
-    font-size: 1rem;
-    height: .9rem;
-    width: .9rem;
-    margin-left: 1rem;
-    padding: 2px;
-    border-radius: .9rem;
-    background-color: rgb(133, 105, 105);
-    cursor: pointer;
-  }
-  &:active:after {
-    background-color: rgb(87, 68, 68);
-  }
-}

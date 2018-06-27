@@ -15,10 +15,8 @@ Clips.prototype.addClip = function() {
 };
 
 Clips.prototype.createClip = async function(clip) {
-  const body = { url: clip };
-  console.log(body);
   await fetch(`${endpoint}/save`, {
-    body: JSON.stringify(body),
+    body: JSON.stringify(clip),
     headers: {
       'content-type': 'application/json'
     },
@@ -29,19 +27,24 @@ Clips.prototype.createClip = async function(clip) {
 };
 
 Clips.prototype.readClip = function(s) {
-  const readClipView = require('../views/clip-crud/clip-read-view');
+  var viewFunction;
+  if (window.location.pathname === '/read') {
+    viewFunction = require('../views/clip-crud/clip-read-view');
+  }
+  if (window.location.pathname === '/edit') {
+    viewFunction = require('../views/clip-crud/clip-update-view.js');
+  }
   const slug = s.split('=')[1];
   return fetch(`${endpoint}/read?s=${slug}`)
     .then(response => response.json())
     .then(response => {
-      return readClipView(response);
+      return viewFunction(response);
     })
     .catch(err => console.log(err.message));
 };
 
 Clips.prototype.deleteClip = function(s) {
   const slug = s.split('=')[1];
-  console.log(slug);
   fetch(`${endpoint}/clip/${slug}`, {
     method: 'DELETE'
   })
@@ -52,9 +55,23 @@ Clips.prototype.deleteClip = function(s) {
     .catch(err => console.log(err.message));
 };
 
-Clips.prototype.editClip = function(s) {
-  console.log(s);
-  return s;
+Clips.prototype.editClip = function(clip) {
+  const slug = clip.slug;
+  fetch(`${endpoint}/clip/${slug}`, {
+    body: JSON.stringify(clip),
+    mode: 'cors',
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'PUT'
+  })
+    .then(() => window.location.back())
+    .catch(err => console.log(err.message));
+};
+
+Clips.prototype.tagClipList = function(t) {
+  console.log(t.substr(2));
+  return t;
 };
 
 module.exports = Clips;

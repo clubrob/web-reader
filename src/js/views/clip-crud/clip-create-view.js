@@ -3,7 +3,7 @@ function createClipView() {
   <h3>Add by URL</h3>
   <div class="form__field">
     <label class="form__field__label" for="add-url-form-url">URL</label>
-    <input class="form__field__text" type="text" name="add-url-form-url" id="add-url-form-url" value="">
+    <input class="form__field__text" type="text" name="add-url-form-url" id="add-url-form-url">
   </div>
   <div class="form__field">
     <label for="add-url-form-tags" class="form__field__label">Tags</label>

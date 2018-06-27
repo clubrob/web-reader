@@ -22,7 +22,9 @@ Router.setRoute('/add', Clip.addClip());
 // Pass function ref instead of function invocation if using URL params
 // Function is invoked at the router
 Router.setRoute('/read', Clip.readClip);
+Router.setRoute('/edit', Clip.readClip);
 Router.setRoute('/delete', Clip.deleteClip);
+Router.setRoute('/tag', Clip.tagClipList);
 
 // Event handlers
 function addClipUrlHandler(event) {
@@ -36,8 +38,8 @@ function addClipUrlHandler(event) {
       tag => tag.textContent
     );
 
-    console.log(clip);
-    // Clip.createClip(url);
+    // console.log(clip);
+    Clip.createClip(clip);
     event.preventDefault();
   }
 }
@@ -53,8 +55,26 @@ function addClipManualHandler(event) {
     clip.tags = Array.from(form.getElementsByClassName('tag-span')).map(
       tag => tag.textContent
     );
-    console.log(clip);
-    // Clip.createClip(url);
+    // console.log(clip);
+    Clip.createClip(clip);
+    event.preventDefault();
+  }
+}
+function updateClipHandler(event) {
+  const btn = event.target;
+  if (btn && btn.matches('#edit-manual-form-submit')) {
+    const form = document.querySelector('#edit-manual-form');
+
+    const clip = {};
+    clip.title = form.querySelector('#edit-manual-form-title').value;
+    clip.summary = form.querySelector('#edit-manual-form-summary').value;
+    clip.tags = Array.from(form.getElementsByClassName('tag-span')).map(
+      tag => tag.textContent
+    );
+    clip.slug = window.location.search.substr(3);
+
+    // console.log(clip);
+    Clip.editClip(clip);
     event.preventDefault();
   }
 }
@@ -108,6 +128,7 @@ document.addEventListener('click', event => {
 
 app.addEventListener('click', addClipUrlHandler);
 app.addEventListener('click', addClipManualHandler);
+app.addEventListener('click', updateClipHandler);
 app.addEventListener('keyup', tagInputHandler);
 app.addEventListener('click', tagDeleteHandler);
 

@@ -1,6 +1,11 @@
 const clipListView = function(clips) {
   let html = '';
   clips.forEach(clip => {
+    let tagGroup = '';
+    const tags = clip.tags;
+    tags.forEach(tag => {
+      tagGroup += `<a class="tag-span" href="/tag?t=${tag}">${tag}</a>`;
+    });
     html += `
         <li class="clip">
           <div class="card">
@@ -19,6 +24,7 @@ const clipListView = function(clips) {
             <div class="card__footer">
               <div class="card__footer__date">
                 <p>Saved: ${clip.date}</p>
+                <p>${tagGroup}</p>
               </div>
               <div class="card__footer__share">
               </div>
