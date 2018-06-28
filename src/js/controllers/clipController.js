@@ -20,9 +20,13 @@ Clips.prototype.createClip = async function(clip) {
     headers: {
       'content-type': 'application/json'
     },
-    method: 'POST'
+    method: 'POST',
+    mode: 'cors'
   })
     .then(res => res.json())
+    .then(res => {
+      window.location.replace(`../read?s=${res.slug}`);
+    })
     .catch(err => console.log(err.message));
 };
 
@@ -45,13 +49,12 @@ Clips.prototype.readClip = function(s) {
 
 Clips.prototype.deleteClip = function(s) {
   const slug = s.split('=')[1];
-  fetch(`${endpoint}/clip/${slug}`, {
-    method: 'DELETE'
+  const deleteView = require('../views/clip-crud/clip-delete-view.js');
+  return fetch(`${endpoint}/clip/${slug}`, {
+    method: 'DELETE',
+    mode: 'cors'
   })
-    .then(() => {
-      window.history.back();
-      window.location.reload();
-    })
+    .then(() => window.location.replace('../list'))
     .catch(err => console.log(err.message));
 };
 
@@ -65,7 +68,7 @@ Clips.prototype.editClip = function(clip) {
     },
     method: 'PUT'
   })
-    .then(() => window.location.back())
+    .then(res => console.log(res))
     .catch(err => console.log(err.message));
 };
 
