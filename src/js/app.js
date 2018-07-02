@@ -1,7 +1,8 @@
 const RouterClass = require('./helpers/router.js');
-// const Auth = require('./helpers/auth.js');
+const AuthClass = require('./helpers/auth.js');
 
 const Router = new RouterClass();
+const Auth = new AuthClass();
 
 // Controllers
 const ClipClass = require('./controllers/clipController.js'),
@@ -13,6 +14,8 @@ const Clip = new ClipClass();
 // Global variables
 const app = document.querySelector('#app');
 const currentPath = window.location.pathname + window.location.search;
+
+console.log(Router.routes);
 
 // Set routes
 Router.setRoute('/', Home.indexView());
@@ -26,6 +29,25 @@ Router.setRoute('/edit', Clip.readClip);
 Router.setRoute('/delete', Clip.deleteClip);
 Router.setRoute('/tag', Clip.tagClipList);
 
+function protectionHandler() {
+  const protectedElement = Array.from(document.querySelectorAll('.protected'));
+
+  if (Auth.isLoggedIn()) {
+    protectedElement.forEach(item => {
+      item.classList.remove('hide');
+    });
+    document.querySelector('.nav__menu__item__link--login').style.display =
+      'none';
+  } else {
+    console.log('butts');
+    protectedElement.forEach(item => {
+      item.classList.add('hide');
+    });
+    document.querySelector('.nav__menu__item__link--login').style.display =
+      'block';
+  }
+}
+
 // Event handlers
 function addClipUrlHandler(event) {
   const btn = event.target;
@@ -38,7 +60,6 @@ function addClipUrlHandler(event) {
       tag => tag.textContent
     );
 
-    // console.log(clip);
     Clip.createClip(clip);
     event.preventDefault();
   }
@@ -55,7 +76,7 @@ function addClipManualHandler(event) {
     clip.tags = Array.from(form.getElementsByClassName('tag-span')).map(
       tag => tag.textContent
     );
-    // console.log(clip);
+
     Clip.createClip(clip);
     event.preventDefault();
   }
@@ -73,7 +94,6 @@ function updateClipHandler(event) {
     );
     clip.slug = window.location.search.substr(3);
 
-    // console.log(clip);
     Clip.editClip(clip);
     event.preventDefault();
   }
@@ -109,19 +129,40 @@ function tagDeleteHandler(event) {
     event.target.parentElement.remove();
   }
 }
+function logInHandler(event) {
+  const btn = event.target;
+
+  if (btn && btn.matches('#sign-in-button')) {
+    const user = {};
+    user.email = document.querySelector('#app_email').value;
+    user.password = document.querySelector('#app_password').value;
+    Auth.login(user).then(() => protectionHandler());
+    Router.navigate('/', app);
+    event.preventDefault();
+  }
+}
+const logoutButton = document.querySelector('#sign-out-button');
+function logOutHandler(event) {
+  Auth.logout().then(() => protectionHandler());
+  Router.navigate('/', app);
+  event.preventDefault();
+}
 
 // Event listeners
 window.addEventListener('popstate', () => {
   Router.navigate(window.history.state.path, app);
+  protectionHandler();
 });
 
 document.addEventListener('click', event => {
   const link = event.target;
 
   if (link && link.matches('a')) {
+    console.log(Auth.isLoggedIn());
     const href = event.target.attributes.href.value;
     window.history.pushState({ path: href }, '', href);
     Router.navigate(href, app);
+    protectionHandler();
     event.preventDefault();
   }
 });
@@ -131,6 +172,10 @@ app.addEventListener('click', addClipManualHandler);
 app.addEventListener('click', updateClipHandler);
 app.addEventListener('keyup', tagInputHandler);
 app.addEventListener('click', tagDeleteHandler);
+app.addEventListener('click', logInHandler);
+logoutButton.addEventListener('click', logOutHandler);
+
+window.addEventListener('load', protectionHandler);
 
 window.history.pushState({ path: currentPath }, '', currentPath);
 Router.navigate(currentPath, app);

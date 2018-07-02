@@ -17,16 +17,14 @@
       </div>
       <ul class="nav__menu">
         <li class="nav__menu__item">
-          <a href="/add" class="route nav__menu__item__link">Add Clip</a>
+          <a href="/add" class="route nav__menu__item__link protected hide">Add Clip</a>
         </li>
         <li class="nav__menu__item">
-          <a href="/list" class="route nav__menu__item__link">Clip List</a>
+          <a href="/list" class="route nav__menu__item__link protected hide">Clip List</a>
         </li>
         <li class="nav__menu__item">
-          <a href="/login" class="route nav__menu__item__link">Log In</a>
-        </li>
-        <li class="nav__menu__item">
-          <a href="/logout" class="route nav__menu__item__link">Log Out</a>
+          <a href="/login" class="route nav__menu__item__link nav__menu__item__link--login">Log In</a>
+          <button id="sign-out-button" class="protected">Log Out</button>
         </li>
       </ul>
     </nav>

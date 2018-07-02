@@ -1,5 +1,5 @@
 const Router = function() {
-  this.routes = {};
+  this.routes = [];
 };
 
 Router.prototype.getContent = function(route, callback) {
@@ -11,8 +11,13 @@ Router.prototype.getContent = function(route, callback) {
   }
 };
 
-Router.prototype.setRoute = function(path, view) {
-  this.routes[path] = view;
+Router.prototype.setRoute = function(path, view, safe) {
+  const newRoute = {
+    path: path,
+    view: view,
+    safe: safe
+  };
+  this.routes.push(newRoute);
 };
 
 Router.prototype.navigate = function(route, container) {
