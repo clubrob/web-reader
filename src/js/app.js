@@ -15,32 +15,30 @@ const Clip = new ClipClass();
 const app = document.querySelector('#app');
 const currentPath = window.location.pathname + window.location.search;
 
-console.log(Router.routes);
+// console.log(Router.routes);
 
 // Set routes
-Router.setRoute('/', Home.indexView());
-Router.setRoute('/login', Login.loginView());
-Router.setRoute('/list', Clip.clipsView());
-Router.setRoute('/add', Clip.addClip());
-// Pass function ref instead of function invocation if using URL params
-// Function is invoked at the router
-Router.setRoute('/read', Clip.readClip);
-Router.setRoute('/edit', Clip.readClip);
-Router.setRoute('/delete', Clip.deleteClip);
-Router.setRoute('/tag', Clip.tagClipList);
+Router.setRoute('/', Home.indexView, false);
+Router.setRoute('/login', Login.loginView, false);
+Router.setRoute('/list', Clip.clipsView, true);
+Router.setRoute('/add', Clip.addClip, true);
+Router.setRoute('/read', Clip.readClip, true);
+Router.setRoute('/edit', Clip.readClip, true);
+Router.setRoute('/delete', Clip.deleteClip, true);
+Router.setRoute('/tag', Clip.tagClipList, true);
 
-function protectionHandler() {
-  const protectedElement = Array.from(document.querySelectorAll('.protected'));
+function safeHandler() {
+  const safeElement = Array.from(document.querySelectorAll('.protected'));
 
   if (Auth.isLoggedIn()) {
-    protectedElement.forEach(item => {
+    safeElement.forEach(item => {
       item.classList.remove('hide');
     });
     document.querySelector('.nav__menu__item__link--login').style.display =
       'none';
   } else {
     console.log('butts');
-    protectedElement.forEach(item => {
+    safeElement.forEach(item => {
       item.classList.add('hide');
     });
     document.querySelector('.nav__menu__item__link--login').style.display =
@@ -136,14 +134,14 @@ function logInHandler(event) {
     const user = {};
     user.email = document.querySelector('#app_email').value;
     user.password = document.querySelector('#app_password').value;
-    Auth.login(user).then(() => protectionHandler());
+    Auth.login(user).then(() => safeHandler());
     Router.navigate('/', app);
     event.preventDefault();
   }
 }
 const logoutButton = document.querySelector('#sign-out-button');
 function logOutHandler(event) {
-  Auth.logout().then(() => protectionHandler());
+  Auth.logout().then(() => safeHandler());
   Router.navigate('/', app);
   event.preventDefault();
 }
@@ -151,7 +149,7 @@ function logOutHandler(event) {
 // Event listeners
 window.addEventListener('popstate', () => {
   Router.navigate(window.history.state.path, app);
-  protectionHandler();
+  safeHandler();
 });
 
 document.addEventListener('click', event => {
@@ -160,9 +158,13 @@ document.addEventListener('click', event => {
   if (link && link.matches('a')) {
     console.log(Auth.isLoggedIn());
     const href = event.target.attributes.href.value;
-    window.history.pushState({ path: href }, '', href);
+    if (href.indexOf('http') < 0) {
+      window.history.pushState({ path: href }, '', href);
+    } else {
+      window.open(href, '_blank');
+    }
+    safeHandler();
     Router.navigate(href, app);
-    protectionHandler();
     event.preventDefault();
   }
 });
@@ -174,8 +176,6 @@ app.addEventListener('keyup', tagInputHandler);
 app.addEventListener('click', tagDeleteHandler);
 app.addEventListener('click', logInHandler);
 logoutButton.addEventListener('click', logOutHandler);
-
-window.addEventListener('load', protectionHandler);
 
 window.history.pushState({ path: currentPath }, '', currentPath);
 Router.navigate(currentPath, app);

@@ -3,11 +3,13 @@ const Router = function() {
 };
 
 Router.prototype.getContent = function(route, callback) {
-  if (route.params) {
-    // Passing route params and invoking view function
-    callback(this.routes[route.view](route.params));
-  } else {
-    callback(this.routes[route.view]);
+  const routesArr = this.routes;
+
+  for (let i = 0; i < routesArr.length; i++) {
+    if (routesArr[i]['path'] === route.view) {
+      // Passing route params and invoking view function
+      callback(routesArr[i]['view'](route.params));
+    }
   }
 };
 
