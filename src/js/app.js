@@ -1,21 +1,38 @@
+const firebase = require('firebase/app');
+require('firebase/auth');
+
 const RouterClass = require('./helpers/router.js');
 const AuthClass = require('./helpers/auth.js');
-
-const Router = new RouterClass();
-const Auth = new AuthClass();
-
 // Controllers
-const ClipClass = require('./controllers/clipController.js'),
+const ClipControllerClass = require('./controllers/clipController.js'),
   Login = require('./controllers/loginController.js'),
   Home = require('./controllers/homeController.js');
 
-const Clip = new ClipClass();
+const Router = new RouterClass();
+const Auth = new AuthClass();
+const Clip = new ClipControllerClass();
 
 // Global variables
 const app = document.querySelector('#app');
 const currentPath = window.location.pathname + window.location.search;
 
-// console.log(Router.routes);
+document.addEventListener('DOMContentLoaded', () => {
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) {
+      console.log(firebase.auth().currentUser.displayName);
+      firebase
+        .auth()
+        .currentUser.getIdToken()
+        .then(token => {
+          console.log(token);
+          return Clip.setToken(token);
+        })
+        .catch(err => console.error(err.message));
+    } else {
+      console.log('nobody signed in');
+    }
+  });
+});
 
 // Set routes
 Router.setRoute('/', Home.indexView, false);
@@ -134,14 +151,18 @@ function logInHandler(event) {
     const user = {};
     user.email = document.querySelector('#app_email').value;
     user.password = document.querySelector('#app_password').value;
-    Auth.login(user).then(() => safeHandler());
+    Auth.login(user)
+      .then(() => safeHandler())
+      .catch(err => console.error(err.message));
     Router.navigate('/', app);
     event.preventDefault();
   }
 }
 const logoutButton = document.querySelector('#sign-out-button');
 function logOutHandler(event) {
-  Auth.logout().then(() => safeHandler());
+  Auth.logout()
+    .then(() => safeHandler())
+    .catch(err => console.error(err.message));
   Router.navigate('/', app);
   event.preventDefault();
 }

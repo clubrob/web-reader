@@ -1,19 +1,28 @@
 const Clips = function() {};
-const endpoint = 'http://localhost:5000/api';
+const endpoint = 'http://localhost:5001/web-reader-api/us-central1/reader';
 
+Clips.token = null;
+
+Clips.prototype.setToken = function(token) {
+  this.token = token;
+};
+
+// GET all clips
 Clips.prototype.clipsView = function() {
   const clipListView = require('../views/clip-list-view');
-  return fetch(endpoint)
+  return fetch(`${endpoint}/read`)
     .then(response => response.json())
     .then(data => clipListView(data))
     .catch(err => console.log(err.message));
 };
 
+// Add clip form
 Clips.prototype.addClip = function() {
   const createClipView = require('../views/clip-crud/clip-create-view');
   return createClipView();
 };
 
+// POST save clip
 Clips.prototype.createClip = async function(clip) {
   await fetch(`${endpoint}/save`, {
     body: JSON.stringify(clip),
@@ -30,6 +39,7 @@ Clips.prototype.createClip = async function(clip) {
     .catch(err => console.log(err.message));
 };
 
+// GET one clip
 Clips.prototype.readClip = function(s) {
   var viewFunction;
   if (window.location.pathname === '/read') {
@@ -39,7 +49,7 @@ Clips.prototype.readClip = function(s) {
     viewFunction = require('../views/clip-crud/clip-update-view.js');
   }
   const slug = s.split('=')[1];
-  return fetch(`${endpoint}/read?s=${slug}`)
+  return fetch(`${endpoint}/read/${slug}`)
     .then(response => response.json())
     .then(response => {
       return viewFunction(response);
@@ -47,10 +57,11 @@ Clips.prototype.readClip = function(s) {
     .catch(err => console.log(err.message));
 };
 
+// DELETE clip
 Clips.prototype.deleteClip = function(s) {
   const slug = s.split('=')[1];
   const deleteView = require('../views/clip-crud/clip-delete-view.js');
-  return fetch(`${endpoint}/clip/${slug}`, {
+  return fetch(`${endpoint}/delete/${slug}`, {
     method: 'DELETE',
     mode: 'cors'
   })
@@ -58,9 +69,10 @@ Clips.prototype.deleteClip = function(s) {
     .catch(err => console.log(err.message));
 };
 
+// PUT edit clip
 Clips.prototype.editClip = function(clip) {
   const slug = clip.slug;
-  fetch(`${endpoint}/clip/${slug}`, {
+  fetch(`${endpoint}/save/${slug}`, {
     body: JSON.stringify(clip),
     mode: 'cors',
     headers: {

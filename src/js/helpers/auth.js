@@ -1,6 +1,3 @@
-const firebase = require('firebase/app');
-require('firebase/auth');
-
 const Auth = function() {
   const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
@@ -23,6 +20,16 @@ Auth.prototype.logout = function() {
 
 Auth.prototype.isLoggedIn = function() {
   return firebase.auth().currentUser ? true : false;
+};
+
+Auth.prototype.getToken = function() {
+  return firebase
+    .auth()
+    .currentUser.getIdToken()
+    .then(token => {
+      return token;
+    })
+    .catch(err => console.error(err.message));
 };
 
 module.exports = Auth;
