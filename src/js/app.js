@@ -1,12 +1,10 @@
 const Router = require('./helpers/router.js');
 const Auth = require('./helpers/auth.js');
 // Controllers
-const ClipControllerClass = require('./controllers/clipController.js'),
+const Clip = require('./controllers/clipController.js'),
   Login = require('./controllers/loginController.js'),
   Home = require('./controllers/homeController.js'),
   UI = require('./controllers/uiController.js');
-
-const Clip = new ClipControllerClass();
 
 const App = (function(Router, Auth, Clip) {
   const currentPath = window.location.pathname + window.location.search;
@@ -17,8 +15,7 @@ const App = (function(Router, Auth, Clip) {
     Auth.onAuthStateChanged(user => {
       if (user) {
         Auth.getToken()
-          .then(token => Auth.setToken(token))
-          .then(() => console.log('token', Auth.idToken))
+          .then(token => Clip.setAuthState(token))
           .catch(err => console.error(err.message));
         safeElement.forEach(item => {
           item.classList.remove('hide');
@@ -26,6 +23,7 @@ const App = (function(Router, Auth, Clip) {
         document.querySelector('.nav__menu__item__link--login').style.display =
           'none';
       } else {
+        Clip.setAuthState(null);
         console.log('nobody signed in', Auth.idToken);
         safeElement.forEach(item => {
           item.classList.add('hide');
@@ -187,14 +185,14 @@ const App = (function(Router, Auth, Clip) {
   return {
     init: function() {
       // Set routes
-      Router.setRoute('/', Home.indexView, false);
-      Router.setRoute('/login', Login.loginView, false);
-      Router.setRoute('/list', Clip.clipsView, true);
-      Router.setRoute('/add', Clip.addClip, true);
-      Router.setRoute('/read', Clip.readClip, true);
-      Router.setRoute('/edit', Clip.readClip, true);
-      Router.setRoute('/delete', Clip.deleteClip, true);
-      Router.setRoute('/tag', Clip.tagClipList, true);
+      Router.setRoute('/', Home.indexView);
+      Router.setRoute('/login', Login.loginView);
+      Router.setRoute('/list', Clip.clipsView);
+      Router.setRoute('/add', Clip.addClip);
+      Router.setRoute('/read', Clip.readClip);
+      Router.setRoute('/edit', Clip.readClip);
+      Router.setRoute('/delete', Clip.deleteClip);
+      Router.setRoute('/tag', Clip.tagClipList);
 
       loadEventListeners();
 

@@ -12,11 +12,10 @@ const Router = (function() {
         }
       }
     },
-    setRoute: function(path, view, safe) {
+    setRoute: function(path, view) {
       const newRoute = {
         path: path,
-        view: view,
-        safe: safe
+        view: view
       };
       routes.push(newRoute);
     },
