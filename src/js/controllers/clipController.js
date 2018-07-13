@@ -1,7 +1,7 @@
 const Clips = (function() {
   const endpoint =
-    // 'https://us-central1-web-reader-api.cloudfunctions.net/reader';
-    'http://localhost:5001/web-reader-api/us-central1/reader';
+    'https://us-central1-web-reader-api.cloudfunctions.net/reader';
+  // const endpoint = 'http://localhost:5001/web-reader-api/us-central1/reader';
 
   const authState = {
     token: null
@@ -23,7 +23,6 @@ const Clips = (function() {
       })
         .then(response => response.json())
         .then(data => {
-          console.log(data);
           return clipListView(data);
         })
         .catch(err => console.log(err.message));
@@ -63,7 +62,6 @@ const Clips = (function() {
       })
         .then(response => response.json())
         .then(response => {
-          console.log(response);
           return readClipView(response[0]);
         })
         .catch(err => console.log(err.message));
