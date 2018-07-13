@@ -10,7 +10,6 @@ const Auth = (function() {
   firebase.initializeApp(firebaseConfig);
 
   return {
-    idToken: null,
     login: function(user) {
       return firebase
         .auth()
@@ -24,9 +23,6 @@ const Auth = (function() {
     isLoggedIn: function() {
       return firebase.auth().currentUser ? true : false;
     },
-    setToken: function(token) {
-      this.idToken = token;
-    },
     getToken: function() {
       return firebase
         .auth()
@@ -35,6 +31,9 @@ const Auth = (function() {
           return token;
         })
         .catch(err => console.error(err.message));
+    },
+    getUser: function() {
+      return firebase.auth().currentUser;
     },
     onAuthStateChanged: function(cb) {
       return firebase.auth().onAuthStateChanged(cb);

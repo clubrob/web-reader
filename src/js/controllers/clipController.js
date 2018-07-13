@@ -1,7 +1,7 @@
 const Clips = (function() {
   const endpoint =
-    'https://us-central1-web-reader-api.cloudfunctions.net/reader';
-  // 'http://localhost:5001/web-reader-api/us-central1/reader';
+    // 'https://us-central1-web-reader-api.cloudfunctions.net/reader';
+    'http://localhost:5001/web-reader-api/us-central1/reader';
 
   const authState = {
     token: null
@@ -18,7 +18,8 @@ const Clips = (function() {
         headers: {
           Authorization: `Bearer ${authState.token}`,
           'Content-Type': 'application/json'
-        }
+        },
+        mode: 'cors'
       })
         .then(response => response.json())
         .then(data => {
@@ -35,9 +36,10 @@ const Clips = (function() {
       await fetch(`${endpoint}/save`, {
         body: JSON.stringify(clip),
         headers: {
-          'content-type': 'application/json'
+          Authorization: `Bearer ${authState.token}`,
+          'Content-Type': 'application/json'
         },
-        method: 'POST',
+        method: 'post',
         mode: 'cors'
       })
         .then(res => res.json())
@@ -48,25 +50,21 @@ const Clips = (function() {
         .catch(err => console.log(err.message));
     },
     readClip: function(slug) {
-      var viewFunction;
-      if (window.location.pathname === '/read') {
-        viewFunction = require('../views/clip-crud/clip-read-view');
-      }
-      if (window.location.pathname === '/edit') {
-        viewFunction = require('../views/clip-crud/clip-update-view.js');
-      }
+      const readClipView = require('../views/clip-crud/clip-read-view');
+
       const s = slug.split('=')[1];
       return fetch(`${endpoint}/read/${s}`, {
         method: 'get',
         headers: {
           Authorization: `Bearer ${authState.token}`,
           'Content-Type': 'application/json'
-        }
+        },
+        mode: 'cors'
       })
         .then(response => response.json())
         .then(response => {
           console.log(response);
-          return viewFunction(response[0]);
+          return readClipView(response[0]);
         })
         .catch(err => console.log(err.message));
     },

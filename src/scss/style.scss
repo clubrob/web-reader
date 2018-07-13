@@ -32,3 +32,14 @@ footer {
 .hide {
   display: none;
 }
+#sign-out-button {
+  background: transparent;
+  color: #fff;
+  border: 0;
+  padding: 2rem;
+  font-size: 1.6rem;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}

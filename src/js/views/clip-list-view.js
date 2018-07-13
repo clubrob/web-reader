@@ -3,7 +3,6 @@ const clipListView = function(clips) {
   clips.forEach(clip => {
     let tagGroup = '';
     const tags = Object.keys(clip.tags);
-    console.log(tags);
     tags.forEach(tag => {
       tagGroup += `<a class="tag-span" href="/tag?t=${tag}">${tag}</a>`;
     });

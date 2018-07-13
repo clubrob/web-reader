@@ -38,31 +38,28 @@ const App = (function(Router, Auth, Clip) {
     const ui = UI.getUIElements();
 
     window.addEventListener('popstate', () => {
-      Router.navigate(window.history.state.path, app);
       safeHandler();
+      Router.navigate(window.history.state.path, app);
     });
-
-    document.addEventListener('DOMContentLoaded', safeHandler);
 
     document.addEventListener('click', event => {
       const link = event.target;
 
       if (link && link.matches('a')) {
-        console.log(Auth.isLoggedIn());
+        // console.log(Auth.isLoggedIn());
         const href = event.target.attributes.href.value;
-        if (href.indexOf('http') < 0) {
-          window.history.pushState({ path: href }, '', href);
-        } else {
+        if (href.indexOf('http') >= 0) {
           window.open(href, '_blank');
+        } else {
+          safeHandler();
+          Router.navigate(href, app);
         }
-        safeHandler();
-        Router.navigate(href, app);
         event.preventDefault();
       }
     });
 
     ui.app.addEventListener('click', addClipUrlHandler);
-    ui.app.addEventListener('click', addClipManualHandler);
+    // ui.app.addEventListener('click', addClipManualHandler);
     ui.app.addEventListener('click', updateClipHandler);
     ui.app.addEventListener('keyup', tagInputHandler);
     ui.app.addEventListener('click', tagDeleteHandler);
@@ -80,13 +77,13 @@ const App = (function(Router, Auth, Clip) {
       clip.tags = Array.from(form.getElementsByClassName('tag-span')).map(
         tag => tag.textContent
       );
-
+      console.log(JSON.stringify(clip));
       Clip.createClip(clip);
       event.preventDefault();
     }
   };
 
-  const addClipManualHandler = function(event) {
+  /* const addClipManualHandler = function(event) {
     const btn = event.target;
     if (btn && btn.matches('#add-manual-form-submit')) {
       const form = document.querySelector('#add-manual-form');
@@ -102,7 +99,7 @@ const App = (function(Router, Auth, Clip) {
       Clip.createClip(clip);
       event.preventDefault();
     }
-  };
+  }; */
 
   const updateClipHandler = function(event) {
     const btn = event.target;
@@ -196,8 +193,20 @@ const App = (function(Router, Auth, Clip) {
 
       loadEventListeners();
 
-      window.history.pushState({ path: currentPath }, '', currentPath);
-      Router.navigate(currentPath, app);
+      Auth.onAuthStateChanged(user => {
+        if (user) {
+          Auth.getToken()
+            .then(token => {
+              Clip.setAuthState(token);
+              safeHandler();
+              return Router.navigate(currentPath, app);
+            })
+            .catch(err => console.error(err.message));
+        } else {
+          safeHandler();
+          Router.navigate('/', app);
+        }
+      });
     }
   };
 })(Router, Auth, Clip);

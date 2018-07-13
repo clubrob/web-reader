@@ -21,23 +21,26 @@ const Router = (function() {
     },
     navigate: function(route, container) {
       // Splitting route params into route
+      let routeObj;
       if (route.indexOf('?') > 0) {
-        route = {
+        routeObj = {
           view: route.split('?')[0],
           params: route.split('?')[1]
         };
       } else {
-        route = { view: route, params: null };
+        routeObj = { view: route, params: null };
       }
-      this.getContent(route, (content, params) => {
+      this.getContent(routeObj, (content, params) => {
         // Conditional to handle async or static view functions
         if (content && typeof content.then === 'function') {
           content
             .then(result => {
+              window.history.pushState({ path: route }, '', route);
               return (container.innerHTML = result);
             })
             .catch(err => console.error(err.message));
         } else {
+          window.history.pushState({ path: route }, '', route);
           container.innerHTML = content;
         }
       });
