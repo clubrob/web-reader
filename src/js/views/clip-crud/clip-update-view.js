@@ -1,5 +1,5 @@
 function updateClipView(clip) {
-  const tags = clip.tags;
+  const tags = Object.keys(clip.tags);
   let tagGroup = '';
   tags.forEach(tag => {
     tagGroup += `<span class="tag-span">${tag}<span class="tag-delete"></span></span>`;
@@ -18,7 +18,12 @@ function updateClipView(clip) {
   </div>
   <div class="form__field">
     <label for="edit-manual-form-summary" class="form__field__label">Summary</label>
-    <textarea class="form__field__textarea" name="edit-manual-form-summary" id="edit-manual-form-summary" cols="30" rows="10">${clip.summary}</textarea>
+    <textarea 
+      class="form__field__textarea" 
+      name="edit-manual-form-summary" 
+      id="edit-manual-form-summary" 
+      cols="30" 
+      rows="10">${clip.summary}</textarea>
   </div>
   <div class="form__field">
     <label for="edit-manual-form-tags" class="form__field__label">Tags</label>

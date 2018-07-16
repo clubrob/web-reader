@@ -114,7 +114,7 @@ const App = (function(Router, Auth, Clip) {
       );
       clip.slug = window.location.search.substr(3);
 
-      Clip.editClip(clip);
+      Clip.updateClip(clip);
       event.preventDefault();
     }
   };
@@ -187,7 +187,7 @@ const App = (function(Router, Auth, Clip) {
       Router.setRoute('/list', Clip.clipsView);
       Router.setRoute('/add', Clip.addClip);
       Router.setRoute('/read', Clip.readClip);
-      Router.setRoute('/edit', Clip.readClip);
+      Router.setRoute('/edit', Clip.editClip);
       Router.setRoute('/delete', Clip.deleteClip);
       Router.setRoute('/tag', Clip.tagClipList);
 

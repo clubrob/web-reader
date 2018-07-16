@@ -66,27 +66,53 @@ const Clips = (function() {
         })
         .catch(err => console.log(err.message));
     },
-    deleteClip: function(s) {
-      const slug = s.split('=')[1];
+    deleteClip: function(slug) {
+      const s = slug.split('=')[1];
       const deleteView = require('../views/clip-crud/clip-delete-view.js');
-      return fetch(`${endpoint}/delete/${slug}`, {
-        method: 'DELETE',
+      return fetch(`${endpoint}/delete/${s}`, {
+        method: 'delete',
+        headers: {
+          Authorization: `Bearer ${authState.token}`,
+          'Content-Type': 'application/json'
+        },
         mode: 'cors'
       })
         .then(() => window.location.replace('../list'))
         .catch(err => console.log(err.message));
     },
-    editClip: function(clip) {
+    editClip: function(slug) {
+      const editClipView = require('../views/clip-crud/clip-update-view');
+
+      const s = slug.split('=')[1];
+      return fetch(`${endpoint}/read/${s}`, {
+        method: 'get',
+        headers: {
+          Authorization: `Bearer ${authState.token}`,
+          'Content-Type': 'application/json'
+        },
+        mode: 'cors'
+      })
+        .then(response => response.json())
+        .then(response => {
+          return editClipView(response[0]);
+        })
+        .catch(err => console.log(err.message));
+    },
+    updateClip: function(clip) {
       const slug = clip.slug;
       fetch(`${endpoint}/save/${slug}`, {
         body: JSON.stringify(clip),
         mode: 'cors',
         headers: {
-          'content-type': 'application/json'
+          Authorization: `Bearer ${authState.token}`,
+          'Content-Type': 'application/json'
         },
-        method: 'PUT'
+        method: 'put'
       })
-        .then(res => console.log(res))
+        .then(res => {
+          window.location.replace(`../read?s=${slug}`);
+          return;
+        })
         .catch(err => console.log(err.message));
     },
     tagClipList: function(t) {
