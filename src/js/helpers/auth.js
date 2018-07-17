@@ -3,8 +3,8 @@ require('firebase/auth');
 
 const Auth = (function() {
   const firebaseConfig = {
-    apiKey: 'AIzaSyC3W_KU1V6fpjdGJvPnfgfDt7R_I0X9xno',
-    authDomain: 'web-reader-api.firebaseapp.com'
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN
   };
 
   firebase.initializeApp(firebaseConfig);
