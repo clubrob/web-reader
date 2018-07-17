@@ -59,8 +59,8 @@ const App = (function(Router, Auth, Clip) {
     });
 
     ui.app.addEventListener('click', addClipUrlHandler);
-    // ui.app.addEventListener('click', addClipManualHandler);
     ui.app.addEventListener('click', updateClipHandler);
+    ui.app.addEventListener('click', deleteClipHandler);
     ui.app.addEventListener('keyup', tagInputHandler);
     ui.app.addEventListener('click', tagDeleteHandler);
     ui.app.addEventListener('click', logInHandler);
@@ -77,29 +77,13 @@ const App = (function(Router, Auth, Clip) {
       clip.tags = Array.from(form.getElementsByClassName('tag-span')).map(
         tag => tag.textContent
       );
-      console.log(JSON.stringify(clip));
-      Clip.createClip(clip);
+
+      Clip.createClip(clip)
+        .then(() => Router.navigate('/list', app))
+        .catch(err => console.error(err.message));
       event.preventDefault();
     }
   };
-
-  /* const addClipManualHandler = function(event) {
-    const btn = event.target;
-    if (btn && btn.matches('#add-manual-form-submit')) {
-      const form = document.querySelector('#add-manual-form');
-
-      const clip = {};
-      clip.title = form.querySelector('#add-manual-form-title').value;
-      clip.url = form.querySelector('#add-manual-form-url').value;
-      clip.summary = form.querySelector('#add-manual-form-summary').value;
-      clip.tags = Array.from(form.getElementsByClassName('tag-span')).map(
-        tag => tag.textContent
-      );
-
-      Clip.createClip(clip);
-      event.preventDefault();
-    }
-  }; */
 
   const updateClipHandler = function(event) {
     const btn = event.target;
@@ -114,9 +98,24 @@ const App = (function(Router, Auth, Clip) {
       );
       clip.slug = window.location.search.substr(3);
 
-      Clip.updateClip(clip);
+      Clip.updateClip(clip)
+        .then(() => Router.navigate('/list', app))
+        .catch(err => console.error(err.message));
       event.preventDefault();
     }
+  };
+
+  const deleteClipHandler = function(event) {
+    const link = event.target;
+    if (link && link.matches('#delete-clip')) {
+      // TODO Confirm DELETE modal
+      const slug = link.href.split('=')[1];
+
+      Clip.deleteClip(slug)
+        .then(() => Router.navigate('/list', app))
+        .catch(err => console.error(err.message))
+    }
+    event.preventDefault();
   };
 
   const tagInputHandler = function(event) {
@@ -188,7 +187,6 @@ const App = (function(Router, Auth, Clip) {
       Router.setRoute('/add', Clip.addClip);
       Router.setRoute('/read', Clip.readClip);
       Router.setRoute('/edit', Clip.editClip);
-      Router.setRoute('/delete', Clip.deleteClip);
       Router.setRoute('/tag', Clip.tagClipList);
 
       loadEventListeners();

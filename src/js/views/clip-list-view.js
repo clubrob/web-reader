@@ -1,4 +1,8 @@
 const clipListView = function(clips) {
+  function convertTime(unixTime) {
+    const date = new Date(unixTime);
+    return date.toLocaleString();
+  }
   let html = '';
   clips.forEach(clip => {
     let tagGroup = '';
@@ -6,6 +10,7 @@ const clipListView = function(clips) {
     tags.forEach(tag => {
       tagGroup += `<a class="tag-span" href="/tag?t=${tag}">${tag}</a>`;
     });
+    let dateTime = convertTime(clip.date);
     html += `
         <li class="clip">
           <div class="card">
@@ -23,7 +28,7 @@ const clipListView = function(clips) {
             </div>
             <div class="card__footer">
               <div class="card__footer__date">
-                <p>Saved: ${clip.date}</p>
+                <p>Saved: ${dateTime}</p>
                 <p>${tagGroup}</p>
               </div>
               <div class="card__footer__share">
