@@ -113,7 +113,7 @@ const App = (function(Router, Auth, Clip) {
 
       Clip.deleteClip(slug)
         .then(() => Router.navigate('/list', app))
-        .catch(err => console.error(err.message));
+        .catch(err => console.error(err.message))
     }
     event.preventDefault();
   };
