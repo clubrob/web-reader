@@ -102,8 +102,19 @@ const Clips = (function() {
         .catch(err => console.error(err.message));
     },
     tagClipList: function(tag) {
-      console.log(tag.substr(2));
-      return tag;
+      const t = tag.split('=')[1];
+      const clipListView = require('../views/clip-list-view');
+      return fetch(`${endpoint}/tag/${t}`, {
+        headers: {
+          Authorization: `Bearer ${authState.token}`,
+          'Content-Type': 'application/json'
+        },
+        method: 'get',
+        mode: 'cors'
+      })
+        .then(res => res.json())
+        .then(res => clipListView(res))
+        .catch(err => console.error(err.message));
     }
   };
 })();

@@ -11,6 +11,7 @@ const clipListView = function(clips) {
       tagGroup += `<a class="tag-span" href="/tag?t=${tag}">${tag}</a>`;
     });
     let dateTime = convertTime(clip.date);
+
     html += `
         <li class="clip">
           <div class="card">
