@@ -1,13 +1,13 @@
 const gulp = require('gulp');
 const sass = require('gulp-sass');
 const csso = require('gulp-csso');
-// var uglify = require('gulp-uglify');
+const terser = require('gulp-uglify-es').default;
 const webpackStream = require('webpack-stream');
 const browser = require('browser-sync').create();
 const historyApi = require('connect-history-api-fallback');
 require('dotenv').config();
 
-gulp.task('bundleJS', () =>
+gulp.task('bundleJSDev', () =>
   gulp
     .src('src/js/app.js', { sourcemaps: true })
     .pipe(
@@ -27,7 +27,30 @@ gulp.task('bundleJS', () =>
         ]
       })
     )
-    /* .pipe(uglify()) */
+    .pipe(gulp.dest('dist/js/'))
+    .pipe(browser.stream())
+);
+
+gulp.task('bundleJS', () =>
+  gulp
+    .src('src/js/app.js')
+    .pipe(
+      webpackStream({
+        output: {
+          filename: 'app.bundle.js'
+        },
+        node: {
+          fs: 'empty'
+        },
+        plugins: [
+          new webpackStream.webpack.EnvironmentPlugin([
+            'FIREBASE_API_KEY',
+            'FIREBASE_AUTH_DOMAIN'
+          ])
+        ]
+      })
+    )
+    .pipe(terser())
     .pipe(gulp.dest('dist/js/'))
     .pipe(browser.stream())
 );
@@ -50,7 +73,7 @@ gulp.task('cleanHTML', () =>
 
 gulp.task(
   'serve',
-  gulp.parallel(['bundleCSS', 'bundleJS', 'cleanHTML'], () => {
+  gulp.parallel(['bundleCSS', 'bundleJSDev', 'cleanHTML'], () => {
     browser.init({
       server: {
         baseDir: './dist',
@@ -59,7 +82,7 @@ gulp.task(
     });
 
     gulp.watch('src/scss/**/*.scss', gulp.series('bundleCSS'));
-    gulp.watch('src/js/**/*.js', gulp.series('bundleJS'));
+    gulp.watch('src/js/**/*.js', gulp.series('bundleJSDev'));
     gulp.watch('src/**/*.html', gulp.series('cleanHTML'));
   })
 );
