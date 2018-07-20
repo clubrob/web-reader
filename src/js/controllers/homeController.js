@@ -4,7 +4,7 @@ const Home = (function() {
   return {
     indexView: function() {
       return homeView;
-    }
+    },
   };
 })();
 

@@ -205,7 +205,7 @@ const App = (function(Router, Auth, Clip) {
           Router.navigate('/', app);
         }
       });
-    }
+    },
   };
 })(Router, Auth, Clip);
 

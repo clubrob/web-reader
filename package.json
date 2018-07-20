@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/clubrob/web-reader#readme",
   "dependencies": {
-    "firebase": "^5.2.0"
+    "firebase": "^5.3.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

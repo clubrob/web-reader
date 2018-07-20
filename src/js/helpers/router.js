@@ -15,7 +15,7 @@ const Router = (function() {
     setRoute: function(path, view) {
       const newRoute = {
         path: path,
-        view: view
+        view: view,
       };
       routes.push(newRoute);
     },
@@ -25,7 +25,7 @@ const Router = (function() {
       if (route.indexOf('?') > 0) {
         routeObj = {
           view: route.split('?')[0],
-          params: route.split('?')[1]
+          params: route.split('?')[1],
         };
       } else {
         routeObj = { view: route, params: null };
@@ -44,7 +44,7 @@ const Router = (function() {
           container.innerHTML = content;
         }
       });
-    }
+    },
   };
 })();
 

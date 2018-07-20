@@ -1,10 +1,10 @@
 const Clips = (function() {
-  const endpoint =
-    'https://us-central1-web-reader-api.cloudfunctions.net/reader';
-  // const endpoint = 'http://localhost:5001/web-reader-api/us-central1/reader';
+  // const endpoint =
+  //   'https://us-central1-web-reader-api.cloudfunctions.net/reader';
+  const endpoint = 'http://localhost:5001/web-reader-api/us-central1/reader';
 
   const authState = {
-    token: null
+    token: null,
   };
 
   return {
@@ -16,10 +16,10 @@ const Clips = (function() {
       return fetch(`${endpoint}/read`, {
         headers: {
           Authorization: `Bearer ${authState.token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         method: 'get',
-        mode: 'cors'
+        mode: 'cors',
       })
         .then(res => res.json())
         .then(res => clipListView(res))
@@ -34,10 +34,10 @@ const Clips = (function() {
         body: JSON.stringify(clip),
         headers: {
           Authorization: `Bearer ${authState.token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         method: 'post',
-        mode: 'cors'
+        mode: 'cors',
       })
         .then(res => res.json())
         .then(res => res)
@@ -51,9 +51,9 @@ const Clips = (function() {
         method: 'get',
         headers: {
           Authorization: `Bearer ${authState.token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        mode: 'cors'
+        mode: 'cors',
       })
         .then(res => res.json())
         .then(res => readClipView(res[0]))
@@ -64,9 +64,9 @@ const Clips = (function() {
         method: 'delete',
         headers: {
           Authorization: `Bearer ${authState.token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        mode: 'cors'
+        mode: 'cors',
       })
         .then(res => res)
         .catch(err => console.error(err.message));
@@ -79,9 +79,9 @@ const Clips = (function() {
         method: 'get',
         headers: {
           Authorization: `Bearer ${authState.token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        mode: 'cors'
+        mode: 'cors',
       })
         .then(res => res.json())
         .then(res => editClipView(res[0]))
@@ -94,9 +94,9 @@ const Clips = (function() {
         mode: 'cors',
         headers: {
           Authorization: `Bearer ${authState.token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        method: 'put'
+        method: 'put',
       })
         .then(res => res)
         .catch(err => console.error(err.message));
@@ -107,15 +107,15 @@ const Clips = (function() {
       return fetch(`${endpoint}/tag/${t}`, {
         headers: {
           Authorization: `Bearer ${authState.token}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         method: 'get',
-        mode: 'cors'
+        mode: 'cors',
       })
         .then(res => res.json())
         .then(res => clipListView(res))
         .catch(err => console.error(err.message));
-    }
+    },
   };
 })();
 

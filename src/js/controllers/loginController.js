@@ -6,7 +6,7 @@ const Login = (function() {
   return {
     loginView: function() {
       return loginView;
-    }
+    },
   };
 })();
 

@@ -4,7 +4,7 @@ require('firebase/auth');
 const Auth = (function() {
   const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
-    authDomain: process.env.FIREBASE_AUTH_DOMAIN
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
   };
 
   firebase.initializeApp(firebaseConfig);
@@ -37,7 +37,7 @@ const Auth = (function() {
     },
     onAuthStateChanged: function(cb) {
       return firebase.auth().onAuthStateChanged(cb);
-    }
+    },
   };
 })();
 
